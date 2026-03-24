@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import os
 
 from app.scraper import scrape_all
 from app.chunker import process_documents
@@ -48,5 +49,13 @@ def index():
 
     return render_template("index.html", query=query, results=results)
 
+@app.route("/health")
+def health():
+    return {"status": "ok"}
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=False
+    )
