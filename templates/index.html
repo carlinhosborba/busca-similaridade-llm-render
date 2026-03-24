@@ -7,21 +7,24 @@
 </head>
 <body>
   <h1>Busca por Similaridade com LLM</h1>
-  <p>Projeto da disciplina - pesquisa por similaridade em textos.</p>
+  <p>Digite uma consulta para encontrar os trechos mais similares nas páginas analisadas.</p>
 
   <form method="POST">
-    <label for="query">Digite uma consulta:</label><br><br>
-    <textarea name="query" id="query" rows="4" cols="60">{{ query }}</textarea><br><br>
+    <label for="query">Consulta:</label><br><br>
+    <textarea name="query" id="query" rows="4" cols="70">{{ query }}</textarea><br><br>
     <button type="submit">Buscar</button>
   </form>
 
   {% if results %}
-    <h2>Resultados</h2>
-    <ul>
-      {% for result in results %}
-        <li>{{ result }}</li>
-      {% endfor %}
-    </ul>
+    <h2>Resultados mais similares</h2>
+
+    {% for result in results %}
+      <div style="margin-bottom: 24px; padding: 12px; border: 1px solid #ccc;">
+        <p><strong>Similaridade:</strong> {{ "%.4f"|format(result.score) }}</p>
+        <p><strong>Fonte:</strong> <a href="{{ result.url }}" target="_blank">{{ result.url }}</a></p>
+        <p>{{ result.text }}</p>
+      </div>
+    {% endfor %}
   {% endif %}
 </body>
 </html>

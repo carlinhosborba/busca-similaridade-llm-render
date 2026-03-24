@@ -10,4 +10,3 @@ def search_similar(query_embedding, chunk_embeddings, chunks, top_k=3):
     )
 
     return ranked[:top_k]
-    
