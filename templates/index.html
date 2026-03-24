@@ -91,7 +91,8 @@
 <body>
   <div class="container">
     <h1>Busca por Similaridade com LLM</h1>
-    <p>Digite uma consulta para encontrar os trechos mais similares nas páginas analisadas.</p>
+    <p><strong>Versão online atual: busca real leve</strong></p>
+    <p>Digite uma consulta para encontrar trechos relacionados ao tema nas páginas analisadas.</p>
 
     <form method="POST">
       <label for="query"><strong>Consulta:</strong></label><br><br>
@@ -100,11 +101,11 @@
     </form>
 
     {% if results %}
-      <h2>Resultados mais similares</h2>
+      <h2>Resultados mais relevantes</h2>
 
       {% for result in results %}
         <div class="result-card">
-          <div class="score">Similaridade: {{ "%.4f"|format(result.score) }}</div>
+          <div class="score">Pontuação: {{ result.score }}</div>
           <div class="source">
             <strong>Fonte:</strong>
             <a href="{{ result.url }}" target="_blank">{{ result.url }}</a>
