@@ -4,27 +4,115 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Busca por Similaridade com LLM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #1f2937;
+    }
+
+    p {
+      color: #4b5563;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .result-card {
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #f9fafb;
+    }
+
+    .score {
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .source {
+      margin: 8px 0;
+      word-break: break-word;
+    }
+
+    .source a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .source a:hover {
+      text-decoration: underline;
+    }
+
+    .chunk-text {
+      color: #374151;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-  <h1>Busca por Similaridade com LLM</h1>
-  <p>Digite uma consulta para encontrar os trechos mais similares nas páginas analisadas.</p>
+  <div class="container">
+    <h1>Busca por Similaridade com LLM</h1>
+    <p>Digite uma consulta para encontrar os trechos mais similares nas páginas analisadas.</p>
 
-  <form method="POST">
-    <label for="query">Consulta:</label><br><br>
-    <textarea name="query" id="query" rows="4" cols="70">{{ query }}</textarea><br><br>
-    <button type="submit">Buscar</button>
-  </form>
+    <form method="POST">
+      <label for="query"><strong>Consulta:</strong></label><br><br>
+      <textarea name="query" id="query" rows="4" placeholder="Ex.: o que é aprendizado supervisionado?">{{ query }}</textarea>
+      <button type="submit">Buscar</button>
+    </form>
 
-  {% if results %}
-    <h2>Resultados mais similares</h2>
+    {% if results %}
+      <h2>Resultados mais similares</h2>
 
-    {% for result in results %}
-      <div style="margin-bottom: 24px; padding: 12px; border: 1px solid #ccc;">
-        <p><strong>Similaridade:</strong> {{ "%.4f"|format(result.score) }}</p>
-        <p><strong>Fonte:</strong> <a href="{{ result.url }}" target="_blank">{{ result.url }}</a></p>
-        <p>{{ result.text }}</p>
-      </div>
-    {% endfor %}
-  {% endif %}
+      {% for result in results %}
+        <div class="result-card">
+          <div class="score">Similaridade: {{ "%.4f"|format(result.score) }}</div>
+          <div class="source">
+            <strong>Fonte:</strong>
+            <a href="{{ result.url }}" target="_blank">{{ result.url }}</a>
+          </div>
+          <div class="chunk-text">{{ result.text }}</div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
 </body>
 </html>
