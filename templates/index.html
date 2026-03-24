@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busca por Similaridade com LLM</title>
+</head>
+<body>
+  <h1>Busca por Similaridade com LLM</h1>
+  <p>Projeto da disciplina - pesquisa por similaridade em textos.</p>
+
+  <form method="POST">
+    <label for="query">Digite uma consulta:</label><br><br>
+    <textarea name="query" id="query" rows="4" cols="60">{{ query }}</textarea><br><br>
+    <button type="submit">Buscar</button>
+  </form>
+
+  {% if results %}
+    <h2>Resultados</h2>
+    <ul>
+      {% for result in results %}
+        <li>{{ result }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>
