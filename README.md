@@ -10,23 +10,29 @@ O projeto foi criado para a disciplina de **Tópicos Avançados em IA**.
 
 ## Sobre o projeto
 
-A aplicação faz buscas semânticas em conteúdos da documentação do **scikit-learn**, usando páginas relacionadas a **Machine Learning**.
+A aplicação realiza buscas semânticas em textos sobre **Machine Learning**, a partir de páginas em português coletadas por scraping.
 
 O fluxo do sistema é:
 
-1. coleta textos de páginas do site;
-2. limpa o conteúdo;
+1. coleta textos de páginas da web;
+2. limpa o conteúdo extraído;
 3. divide o texto em **chunks**;
 4. gera embeddings para cada chunk;
 5. recebe uma consulta do usuário;
 6. compara a consulta com os chunks;
 7. retorna os trechos mais similares.
 
-Assim, em vez de buscar apenas palavras iguais, o sistema tenta recuperar textos com **significado semelhante**.
+Dessa forma, o sistema não busca apenas palavras exatas, mas também **conteúdo com significado semelhante**.
 
 ## Tema escolhido
 
 **Machine Learning**
+
+## Fontes utilizadas no scraping
+
+- IBM Brasil
+- AWS em português
+- Alura
 
 ## Tecnologias utilizadas
 
@@ -38,6 +44,7 @@ Assim, em vez de buscar apenas palavras iguais, o sistema tenta recuperar textos
 - Scikit-learn
 - NumPy
 - HTML
+- CSS
 
 ## Estrutura do projeto
 
@@ -55,36 +62,41 @@ Assim, em vez de buscar apenas palavras iguais, o sistema tenta recuperar textos
 ├── requirements.txt
 ├── main.py
 └── README.md
-Como executar
+
+Como executar:
 1. Clonar o repositório
 git clone URL_DO_REPOSITORIO
-cd av-2-pesquisa-por-similaridade-com-llm-v2-llm_machinelearning   2. Criar e ativar o ambiente virtual
+cd av-2-pesquisa-por-similaridade-com-llm-v2-llm_machinelearning
+
+2. Criar e ativar o ambiente virtual
 macOS / Linux
 python3 -m venv .venv
 source .venv/bin/activate
 Windows PowerShell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
+
 3. Instalar dependências
 pip install --upgrade pip
 pip install -r requirements.txt
+
 4. Executar a aplicação
 python main.py
+
 5. Abrir no navegador
 http://127.0.0.1:5000
-Exemplos de consultas
+
+Exemplos de consultas:
 o que é aprendizado supervisionado
-métodos de agrupamento
-seleção de características
-avaliação de modelos
-como escolher atributos importantes
+o que é aprendizado não supervisionado
+qual a diferença entre aprendizado supervisionado e não supervisionado
+o que é machine learning
+o que é agrupamento de dados
+
 Resultado esperado
-
-A aplicação retorna os trechos mais parecidos com a consulta, mostrando:
-
+A aplicação retorna os trechos mais parecidos com a consulta, exibindo:
 nível de similaridade;
 link da página de origem;
 trecho recuperado.
-Observação
-
-Projeto desenvolvido para fins acadêmicos, com foco em demonstrar de forma prática o uso de LLM + embeddings em busca semântica textual.
+Observação:
+Projeto desenvolvido para fins acadêmicos, com foco em demonstrar na prática o uso de LLM + embeddings em busca semântica textual.
