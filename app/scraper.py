@@ -2,10 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 
 URLS = [
-    "https://scikit-learn.org/stable/supervised_learning.html",
-    "https://scikit-learn.org/stable/modules/clustering.html",
-    "https://scikit-learn.org/stable/model_selection.html",
-    "https://scikit-learn.org/stable/modules/feature_selection.html",
+    "https://www.ibm.com/br-pt/think/topics/supervised-learning",
+    "https://www.ibm.com/br-pt/think/topics/unsupervised-learning",
+    "https://aws.amazon.com/pt/compare/the-difference-between-machine-learning-supervised-and-unsupervised/",
+    "https://www.alura.com.br/artigos/machine-learning",
 ]
 
 def fetch_page_text(url):
