@@ -1,11 +1,30 @@
-from flask import Flask
+from flask import Flask, render_template, request
 import os
 
 app = Flask(__name__)
 
-@app.route("/")
-def home():
-    return "App no ar"
+@app.route("/", methods=["GET", "POST"])
+def index():
+    query = ""
+    results = []
+
+    if request.method == "POST":
+        query = request.form.get("query", "").strip()
+        if query:
+            results = [
+                {
+                    "text": "Resultado de teste 1",
+                    "url": "#",
+                    "score": 0.95
+                },
+                {
+                    "text": "Resultado de teste 2",
+                    "url": "#",
+                    "score": 0.89
+                }
+            ]
+
+    return render_template("index.html", query=query, results=results)
 
 @app.route("/health")
 def health():
