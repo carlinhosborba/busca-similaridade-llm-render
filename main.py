@@ -16,20 +16,50 @@ def ensure_data_loaded():
         documents = scrape_all()
         chunks_data = process_documents(documents)
 
+def build_preview(text, query, max_chars=420):
+    clean_text = " ".join(text.split())
+    query_words = re.findall(r"\w+", query.lower())
+
+    start_index = 0
+    lower_text = clean_text.lower()
+
+    for word in query_words:
+        found = lower_text.find(word)
+        if found != -1:
+            start_index = max(0, found - 80)
+            break
+
+    preview = clean_text[start_index:start_index + max_chars]
+
+    if start_index > 0:
+        preview = "..." + preview
+
+    if start_index + max_chars < len(clean_text):
+        preview = preview + "..."
+
+    return preview
+
 def simple_search(query, chunks, top_k=3):
     query_words = re.findall(r"\w+", query.lower())
     scored_results = []
+    seen_texts = set()
 
     for chunk in chunks:
-        text = chunk["text"].lower()
+        original_text = chunk["text"]
+        text = original_text.lower()
+
         score = sum(1 for word in query_words if word in text)
 
         if score > 0:
-            scored_results.append({
-                "text": chunk["text"],
-                "url": chunk["url"],
-                "score": score
-            })
+            preview = build_preview(original_text, query)
+
+            if preview not in seen_texts:
+                seen_texts.add(preview)
+                scored_results.append({
+                    "text": preview,
+                    "url": chunk["url"],
+                    "score": score
+                })
 
     scored_results.sort(key=lambda item: item["score"], reverse=True)
     return scored_results[:top_k]
