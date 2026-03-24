@@ -42,7 +42,7 @@ def build_preview(text, query, max_chars=420):
 def simple_search(query, chunks, top_k=3):
     query_words = re.findall(r"\w+", query.lower())
     scored_results = []
-    seen_texts = set()
+    seen_previews = set()
 
     for chunk in chunks:
         original_text = chunk["text"]
@@ -53,8 +53,8 @@ def simple_search(query, chunks, top_k=3):
         if score > 0:
             preview = build_preview(original_text, query)
 
-            if preview not in seen_texts:
-                seen_texts.add(preview)
+            if preview not in seen_previews:
+                seen_previews.add(preview)
                 scored_results.append({
                     "text": preview,
                     "url": chunk["url"],
@@ -62,7 +62,27 @@ def simple_search(query, chunks, top_k=3):
                 })
 
     scored_results.sort(key=lambda item: item["score"], reverse=True)
-    return scored_results[:top_k]
+
+    final_results = []
+    used_urls = set()
+
+    for item in scored_results:
+        if item["url"] not in used_urls:
+            final_results.append(item)
+            used_urls.add(item["url"])
+
+        if len(final_results) == top_k:
+            break
+
+    if len(final_results) < top_k:
+        for item in scored_results:
+            if item not in final_results:
+                final_results.append(item)
+
+            if len(final_results) == top_k:
+                break
+
+    return final_results[:top_k]
 
 @app.route("/", methods=["GET", "POST"])
 def index():
