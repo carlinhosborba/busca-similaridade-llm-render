@@ -7,11 +7,17 @@ from app.search import search_similar
 
 app = Flask(__name__)
 
-documents = scrape_all()
-chunks_data = process_documents(documents)
+chunks_data = None
+chunk_embeddings = None
 
-chunk_texts = [item["text"] for item in chunks_data]
-chunk_embeddings = generate_embeddings(chunk_texts)
+def ensure_data_loaded():
+    global chunks_data, chunk_embeddings
+
+    if chunks_data is None or chunk_embeddings is None:
+        documents = scrape_all()
+        chunks_data = process_documents(documents)
+        chunk_texts = [item["text"] for item in chunks_data]
+        chunk_embeddings = generate_embeddings(chunk_texts)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -22,6 +28,7 @@ def index():
         query = request.form.get("query", "").strip()
 
         if query:
+            ensure_data_loaded()
             query_embedding = generate_embeddings([query])[0]
             similar_chunks = search_similar(
                 query_embedding,
